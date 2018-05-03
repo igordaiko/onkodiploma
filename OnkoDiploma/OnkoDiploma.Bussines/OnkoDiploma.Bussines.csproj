@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="linq2db.Core" Version="1.10.2" />
+    <PackageReference Include="Luxena.Core" Version="1.1.0" />
+    <PackageReference Include="Luxena.Data" Version="1.1.0" />
+    <PackageReference Include="Luxena.Json" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OnkoDiploma.Core\OnkoDiploma.Core.csproj" />
+  </ItemGroup>
+
+</Project>

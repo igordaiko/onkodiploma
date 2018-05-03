@@ -1,0 +1,28 @@
+﻿{
+  "core": {
+    "data": {
+      "databaseProvider": "PostgreSQL.9.3",
+      "connectionString": "Server=localhost;Database=Onko;User Id=postgres;Password=111;"
+    },
+    "encryption": {
+      "key": "uG9ITTN+vK+HG64D2dtOtOiL5zrutHnLmM+gXPMw85M=",
+      "derivationIterations": 1000,
+      "keysize": 128
+    }
+  },
+ 
+  "Logging": {
+    "IncludeScopes": false,
+    "Debug": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    },
+    "Console": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    }
+
+  }
+}

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Luxena.Core" Version="1.1.0" />
+    <PackageReference Include="Luxena.Data" Version="1.1.0" />
+    <PackageReference Include="Npgsql" Version="3.2.7" />
+  </ItemGroup>
+
+</Project>

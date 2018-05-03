@@ -1,0 +1,12 @@
+.canvas {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.content {
+	color: rgba(0, 0, 0, 0.87); /* text color */
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}

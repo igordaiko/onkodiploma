@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+	  "outDir": "./wwwroot/",
+	  "module": "ES2015",
+	  "moduleResolution": "Node",
+	  "target": "ES5",
+	  "jsx": "react",
+	  "lib": [ "dom", "es2015", "es5" ],
+	  "sourceMap": true,
+	  "rootDir": "./src/",
+	  "experimentalDecorators": true
+	},
+	"exclude": [
+	  "wwwroot",
+	  "node_modules",
+	  "app"
+	]
+}

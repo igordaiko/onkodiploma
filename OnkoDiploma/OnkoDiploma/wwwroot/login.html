@@ -1,0 +1,340 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Loyalty</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/paper/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #fbfbfb;
+        }
+
+        .centered {
+            width: 512px;
+            height: 384px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: 150px auto 0 auto;
+            padding: 5px;
+        }
+
+        input.form-control {
+            padding-left: 7px !important;
+            padding-right: 7px !important;
+        }
+
+        div.checkbox label {
+            display: flex;
+            align-items: center;
+        }
+
+            div.checkbox label input {
+                margin-top: 0 !important;
+                margin-right: 5px !important;
+                margin-bottom: 0 !important;
+            }
+
+        #signIn .modal-header, #signIn .modal-body, #signIn .modal-footer {
+            padding: 15px 20px;
+        }
+
+        #signIn .modal-body, #signIn .modal-footer {
+            padding: 15px;
+        }
+
+        .fb-login-button.btn {
+            border: none;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+
+        .confirm-modal {
+            background-color: #fbfbfb;
+            width: 580px;
+            height: 260px;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="text-center">
+                <h2 style="color: #007ee5">
+                    <strong>Cancerwatch</strong>
+                </h2>
+            </div>
+        </div>
+    </nav>
+
+    <div class="centered">
+        <form id="signIn" class="form-horizontal">
+            <fieldset>
+                <legend>
+                    Sign In
+                </legend>
+                <div class="form-group">
+                    <label for="signInLogin" class="col-lg-2 control-label">Login</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="signInLogin">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signInPassword" class="col-lg-2 control-label">Password</label>
+                    <div class="col-lg-10">
+                        <input type="password" class="form-control" id="signInPassword">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <div class="checkbox">
+                            <label>
+                                <input id="signInRememberMe" type="checkbox"> Remember Me
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <a id="signInSubmit" class="btn btn-primary">Submit</a>
+                        <!-- <div class="fb-login-button btn" data-max-rows="1" onlogin="checkLoginState();" data-size="large" data-show-faces="false" data-button-type="continue_with" data-scope="email"></div> -->
+
+                    </div>
+
+                </div>
+
+            </fieldset>
+        </form>
+        <div class="col-lg-10 col-lg-offset-2">
+            <p id="error" class="text-danger" style="display: none"></p>
+        </div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+		function postJSON(url, data, callback) {
+			return $.ajax({
+				type: "POST",
+				url: url,
+				data: JSON.stringify(data),
+				success: callback,
+				dataType: "json",
+				contentType: "application/json",
+				processData: false
+			});
+		};
+		function getJSON(url, data, callback) {
+			return $.get({
+				url: url,
+				data: JSON.stringify(data),
+				success: callback,
+				dataType: "json",
+				contentType: "application/json",
+				processData: false
+			});
+		};
+		$(document)
+			.ready(function () {
+
+				function alertMessage(message) {
+					$("#error").text(message);
+					$("#error").show();
+					setTimeout(function () { $("#error").hide() }, 4000);
+				}
+
+				$("#signInSubmit")
+					.on("click",
+						function () {
+							var login = $("#signInLogin").val();
+							var password = $("#signInPassword").val();
+							var rememberMe = $("#signInRememberMe").prop("checked");
+
+							postJSON("api/auth/login", { Login: login, Password: password, ExpiresIn: 60*60*24*365, Name:"" })
+								.done(function (data) {
+									if (!data) {
+										alertMessage("Sign in error! Verify email, password and try again.");
+										return;
+									}
+									Cookies.remove("access_token", { path: "/" });
+									Cookies.set("access_token", data, { expires: rememberMe ? 365 : undefined, path: "/" });
+									document.location = decodeURIComponent(document.location.search.substring(1)) || "/";
+								})
+								.fail(function (error) { alertMessage("Invocation of logIn method failed. Error: " + error); });
+						});
+
+
+				$("#signIn").keypress(function (e) {
+					if (e.which == 13) {
+						$("#signInSubmit").click();
+						return false;
+					}
+				});
+
+				$("#showSignIn")
+					.on("click",
+						function () {
+							$("#signIn").show();
+							$("#register").hide();
+						});
+			});
+
+		let isSentFBData = false;
+		window.fbAsyncInit = function() {
+		  FB.init({
+			appId      : '325710904611512',
+			cookie     : true,
+			xfbml      : true,
+			version    : 'v2.11'
+		  });
+
+		  FB.AppEvents.logPageView();
+		  FB.getLoginStatus(function(response){
+			  if(response.status == "connected")
+			  	return;
+		  });
+		};
+
+		(function(d, s, id){
+		   var js, fjs = d.getElementsByTagName(s)[0];
+		   if (d.getElementById(id)) {return;}
+		   js = d.createElement(s); js.id = id;
+		   js.src = "https://connect.facebook.net/en_US/sdk.js";
+		   fjs.parentNode.insertBefore(js, fjs);
+		 }(document, 'script', 'facebook-jssdk'));
+
+		 function checkLoginState() {
+			FB.getLoginStatus(function(response) {
+				if (response.status === 'connected'){
+						FB.api('/me', { locale: 'en_EN', fields: 'name, email,birthday, hometown,education,gender,website,work' },
+							function(response) {
+								if(response.email == "" || !response.email){
+									FB.login(function(response){
+										if(response.email) {
+											sendFbData(response);
+										}
+									},{auth_type: 'rerequest', scope: 'email'})
+								}
+								else{
+									sendFbData(response);
+								}
+							}
+						);
+					}
+				else if (response.status === 'not_authorized'){
+					console.log("Failed to Connect");
+				}
+				else{
+					console.log("Logged Out");
+
+				}
+			});
+		}
+
+		function sendFbData(data){
+			var request = {
+				email: data.email,
+				name: data.name,
+				facebookId: data.id,
+				expiresIn: 60*60*24*365
+			}
+			postJSON("/api/auth/checkmail", request)
+				.done(function(response){
+					if (!response) {
+						alertMessage("Sign in error! Verify email, password and try again.");
+						return;
+					}
+					if(typeof response === 'object') { //TODO!
+					    if(response.isDuplicate) {
+							request.isLocal = response.isLocal;
+							request.merge = true;
+                            confirmAccountsMerge(request);
+                        }
+					    else {
+							onLoginSuccess(response.accessToken);
+                        }
+					}
+					else {
+                        onLoginSuccess(response);
+                    }
+				})
+				.fail(function (error) { alertMessage("Invocation of logIn method failed. Error: " + error); });
+		}
+
+		function onLoginSuccess(accessToken) {
+            const rememberMe = $("#registerRememberMe").prop("checked");
+
+            Cookies.remove("access_token", { path: "/" });
+			Cookies.set("access_token", accessToken, { expires: rememberMe ? 365 : undefined, path: "/" });
+			debugger;
+            document.location = decodeURIComponent(document.location.search.substring(1)) || "/";
+        }
+
+		function confirmAccountsMerge(request) {
+		     confirm('User with this email already exists',
+				 'Do you want to sign in to an existing account?', function () {
+					request.merge = true;
+					var endpoint = request.isLocalUser ? "api/auth/mergeaccounts" : "api/auth/login"
+				 	postJSON(endpoint, request)
+                         .done(function (data) {
+
+                             if (!data) {
+                                 alertMessage("Register error!");
+                                 return;
+							 }
+							 else if(data.emailConfirmation){
+								a = document.createElement('a');
+								a.href = data.emailConfirmation;
+								a.click();
+							 }
+							 else
+                             	onLoginSuccess(data);
+                         })
+                         .fail(function (error) {
+                             alertMessage("Invocation of register method failed. Error: " + error);
+                         });
+             });
+		}
+
+        function confirm(heading, question, callback, cancelButtonTxt, okButtonTxt) {
+            var confirmModal =
+                $('<div class="modal confirm-modal fade">' +
+                    '<div class="modal-header">' +
+                    '<a class="close" data-dismiss="modal" >&times;</a>' +
+                    '<h3>' + heading +'</h3>' +
+                    '</div>' +
+
+                    '<div class="modal-body">' +
+                    '<p>' + question + '</p>' +
+                    '</div>' +
+
+                    '<div class="modal-footer">' +
+                    '<a href="#" class="btn" data-dismiss="modal">' +
+					(cancelButtonTxt || 'Cancel') +
+                    '</a>' +
+                    '<a href="#" id="okButton" class="btn btn-primary">' +
+					(okButtonTxt || 'OK') +
+                    '</a>' +
+                    '</div>' +
+                    '</div>');
+
+            confirmModal.find('#okButton').click(function(event) {
+                callback();
+                confirmModal.modal('hide');
+            });
+
+            confirmModal.modal('show');
+        }
+    </script>
+</body>
+</html>
