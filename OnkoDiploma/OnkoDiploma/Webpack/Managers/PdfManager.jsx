@@ -44,6 +44,7 @@ export default class PdfManager{
         let body = [
             { text: "Висновок", style: 'bodyheader' },
             { text: person.Name ? "ПІБ: " + person.Name : "", style: 'mainText' },
+            { text: person.Id ? "ID: " + person.Id : "", style: 'mainText' },
             { text: person.age ?  "Вік: " + person.age + " років": "" , style: 'mainText' },
             { text: "На основі опитування виявлено:", style: 'mainText' }
         ];

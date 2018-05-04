@@ -69,7 +69,7 @@ export const MasterRouter = withRouter<MasterProps>(observer(
             <Header {...this.props} user={this.props.view.profile.user} unreadAlertsCount={this.state.unreadAlertsCount} />
             <div className={styles.content}>
                 <Switch>
-					<Route exact path="/" render={(props)=><Dashboard {...props} />}/>
+					<Route exact path="/" render={(props)=><Dashboard {...props} stats={this.props.view.profile.stats}/>}/>
                     {/* <Route exact path="/offers" render={(props)=><Offers {...props} merchant={this.props.view.profile.merchant}/>} />
 					<Route path="/createmerchant" render={(props)=><CreateMerchantForm {...props} merchant={this.props.view.profile.merchant}/>} />
                     <Route path="/offers/:id" render={(props)=><Offer {...props} id={props.match.params.id} merchant={this.props.view.profile.merchant}/>}/>

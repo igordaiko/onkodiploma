@@ -21,7 +21,7 @@ namespace Onko.Core.Contracts
 
     public class SaveModel
     {
-        public decimal? PersonId { get; set; }
+        public string PersonId { get; set; }
     }
 
     public class ResultResponse
@@ -29,7 +29,7 @@ namespace Onko.Core.Contracts
         public string Result { get; set; }
         public int RecomId { get; set; }
         public List<string> TrueAnswers { get; set; }
-        public long? PersonId { get; set; }
+        public string PersonId { get; set; }
     }
 
 }

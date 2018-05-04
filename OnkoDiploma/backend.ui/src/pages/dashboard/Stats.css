@@ -1,0 +1,15 @@
+.content{
+	padding: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.content > span{
+	text-align: center;
+    margin-bottom: 10px;
+    font-size: 25px;
+    color: blue;
+}
+.content > div {
+	width: auto!important;
+}

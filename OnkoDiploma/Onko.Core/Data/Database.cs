@@ -26,6 +26,7 @@ namespace Onko.Core.Data
         public ITable<Person> Persons => GetTable<Person>();
         public ITable<Questionnaire> Questionnaires => GetTable<Questionnaire>();
         public ITable<Doctor> Doctors=> GetTable<Doctor>();
+        public ITable<Stats> Stats => GetTable<Stats>();
 
     }
 

@@ -103,7 +103,8 @@ export default class Result extends Component {
             let person = {
                 Name: this.state.person.shortName + " " + this.state.person.name + " " + this.state.person.secondName,
                 age: this.state.person.age,
-                trueQuestions: this.state.trueQuestions
+				trueQuestions: this.state.trueQuestions,
+				Id: this.state.personId
             }
             var docDefinition = this.state.pdfManager.createPdf(person);
             pdfMake.createPdf(docDefinition).print();
@@ -115,7 +116,9 @@ export default class Result extends Component {
         let person = {
             Name: this.state.person.shortName + " " + this.state.person.name + " " + this.state.person.secondName,
             age: this.state.person.age,
-            trueQuestions: this.state.trueQuestions
+			trueQuestions: this.state.trueQuestions,
+			Id: this.state.personId
+			
         }
         var docDefinition = this.state.pdfManager.createPdf(person);
         axios.post("/api/dictionaries/setFileSaving", {PersonId:this.state.personId});

@@ -20,12 +20,13 @@ import style from './Dashboard.css';
 import { localize } from "../../utils"
 
 //components
-// import MyCampaings from './MyCampaings';
+import { Stats } from './Stats';
 
 // import { MerchantStore } from '../../stores/Merchant/MerchantStore';
+import { StatsStore } from '../../stores/StatsStore';
 
 interface DashboardProps extends RouteComponentProps<any>{
-	merchant?:any
+	stats?: Array<typeof StatsStore.Type>
 }
 interface DasboardState{
 	
@@ -43,7 +44,7 @@ export class Dashboard extends React.Component<DashboardProps, {}> {
 
 	render() {
 		return (
-			<div>dashboard</div>
+			<Stats stats={this.props.stats} {...this.props}/>
 		)
 	}
 }

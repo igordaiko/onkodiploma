@@ -57,12 +57,5 @@ namespace Onko.Controllers
             return res;
         }
 
-        [Route("setFileSaving")]
-        [HttpPost]
-        public void SetFileSaving([FromBody]SaveModel person)
-        {
-            if (person.PersonId.HasValue)
-                _personManager.SetFileSaving(person.PersonId.Value);
-        }
     }
 }

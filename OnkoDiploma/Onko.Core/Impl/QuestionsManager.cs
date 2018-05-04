@@ -11,9 +11,10 @@ namespace Onko.Core.Impl
 {
     public class QuestionsManager
     {
-        public QuestionsManager(Session session)
+        public QuestionsManager(Session session, EncryptManager encryptManager)
         {
             _session = session;
+            _encryptManager = encryptManager;
         }
         public string GetQuestions(byte lang = 1)
         {
@@ -65,11 +66,12 @@ namespace Onko.Core.Impl
                     Result = result,
                     RecomId = Convert.ToInt32(param5.Value),
                     TrueAnswers = answers.Where(x=>x.AnswerNum == 1).Select(x=>db.Questions.First(q=>q.Id == x.Question).Title).ToList(),
-                    PersonId = personId
+                    PersonId = _encryptManager.Encrypt(personId.ToString())
                 };
                 return response;
             }
         }
         private readonly Session _session;
+        private readonly EncryptManager _encryptManager;
     }
 }

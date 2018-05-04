@@ -37,6 +37,7 @@ namespace OnkoDiploma
             services.AddScoped<ILocalizationManager, LocalizationManager>();
             services.AddScoped<QuestionsManager>();
             services.AddScoped<PersonManager>();
+            services.AddScoped<EncryptManager>();
 
             services.AddRouting();
             services.AddMvc();

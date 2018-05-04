@@ -9,9 +9,10 @@ namespace Onko.Core.Impl
 {
     public class PersonManager
     {
-        public PersonManager(Session session)
+        public PersonManager(Session session, EncryptManager encryptManager)
         {
             _session = session;
+            _encryptManager = encryptManager;
         }
 
         public long Save(Person person)
@@ -29,10 +30,11 @@ namespace Onko.Core.Impl
             }
         }
 
-        public void SetFileSaving(decimal personId)
+        public void SetFileSaving(string personIdHash)
         {
             using (var work = _session.BeginWork())
             {
+                var personId = Convert.ToInt64(_encryptManager.Decrypt(personIdHash));
                 var db = work.Database;
 
                 var person = db.Persons.First(x => x.Id == personId);
@@ -46,5 +48,6 @@ namespace Onko.Core.Impl
         }
 
         private readonly Session _session;
+        private readonly EncryptManager _encryptManager;
     }
 }

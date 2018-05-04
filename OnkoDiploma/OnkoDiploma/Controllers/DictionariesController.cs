@@ -61,8 +61,8 @@ namespace Onko.Controllers
         [HttpPost]
         public void SetFileSaving([FromBody]SaveModel person)
         {
-            if (person.PersonId.HasValue)
-                _personManager.SetFileSaving(person.PersonId.Value);
+            if (!string.IsNullOrEmpty(person.PersonId))
+                _personManager.SetFileSaving(person.PersonId);
         }
     }
 }
